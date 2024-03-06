@@ -1,44 +1,46 @@
-document.addEventListener("DOMContentLoaded", () => {
+"use strict";
+
+document.addEventListener("DOMContentLoaded", function () {
   //variáveis
-  let currentExpression = "";
+  var currentExpression = ""; //selecionar os botões
 
-  //selecionar os botões
-  const buttons = document.querySelectorAll(".calculator-box-buttons-button");
-  //display da calculadora
-  const display = document.getElementById("display");
+  var buttons = document.querySelectorAll(".calculator-box-buttons-button"); //display da calculadora
 
-  //função que vai atualizando o display
+  var display = document.getElementById("display"); //função que vai atualizando o display
+
   function showDisplay(value) {
     currentExpression += value;
     display.value = currentExpression;
-  }
+  } //função de calcular
 
-  //função de calcular
+
   function calculate() {
     //soma
     if (currentExpression.includes("+")) {
       //separar a partir do caractere +
-      const operator = currentExpression.split("+");
-      const result = operator.reduce(
-        (sum, operand) => sum + parseFloat(operand),
-        0
-      );
+      var operator = currentExpression.split("+");
+      var result = operator.reduce(function (sum, operand) {
+        return sum + parseFloat(operand);
+      }, 0);
       currentExpression = result.toString();
       display.value = currentExpression;
     } else if (currentExpression.includes("-")) {
-      const operands = currentExpression.split("-");
-      const result = operands.reduce((subtraction, operand, index) => {
+      var operands = currentExpression.split("-");
+
+      var _result = operands.reduce(function (subtraction, operand, index) {
         if (index === 0) {
           return parseFloat(operand);
         } else {
           return subtraction - parseFloat(operand);
         }
       }, 0);
-      currentExpression = result.toString();
+
+      currentExpression = _result.toString();
       display.value = currentExpression;
     } else if (currentExpression.includes("÷")) {
-      const operands = currentExpression.split("÷");
-      const result = operands.reduce((division, operand, index) => {
+      var _operands = currentExpression.split("÷");
+
+      var _result2 = _operands.reduce(function (division, operand, index) {
         if (index === 0) {
           return parseFloat(operand).toFixed(2);
         } else if (parseFloat(operand) !== 0) {
@@ -49,29 +51,30 @@ document.addEventListener("DOMContentLoaded", () => {
           return division; //valor anterior ao da divisão por zero
         }
       }, 0);
-      currentExpression = result.toString();
+
+      currentExpression = _result2.toString();
       display.value = currentExpression;
     } else if (currentExpression.includes("x")) {
-      const operator = currentExpression.split("x");
-      const result = operator.reduce(
-        (multiplication, operand) =>
-          multiplication * parseFloat(operand).toFixed(2)
-      );
-      currentExpression = result.toString();
+      var _operator = currentExpression.split("x");
+
+      var _result3 = _operator.reduce(function (multiplication, operand) {
+        return multiplication * parseFloat(operand).toFixed(2);
+      });
+
+      currentExpression = _result3.toString();
       display.value = currentExpression;
     }
-  }
+  } //para cada botão ao ser clicado
 
-  //para cada botão ao ser clicado
-  buttons.forEach((button) => {
-    button.addEventListener("click", (event) => {
+
+  buttons.forEach(function (button) {
+    button.addEventListener("click", function (event) {
       //valor do botão
-      const selectedValue = event.target.innerText;
-      //se for operador =
+      var selectedValue = event.target.innerText; //se for operador =
+
       if (selectedValue === "=") {
         //chama a função calcular
-        calculate();
-        //se for valor "c" limpa o display
+        calculate(); //se for valor "c" limpa o display
       } else if (selectedValue === "c") {
         currentExpression = "";
         display.value = "";
